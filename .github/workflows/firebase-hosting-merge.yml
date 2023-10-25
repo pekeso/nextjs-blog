@@ -9,6 +9,11 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@v3
       - run: npm ci && npm run build
