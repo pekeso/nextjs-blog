@@ -90,7 +90,52 @@ http://localhost:5000
 
 In order to update the local URL with the latest changes, refresh the browser.
 
-## Preview
+## Deploy to live & preview channels via GitHub pull requests
+
+What this GitHub Action can do:
+
+- Creates a new preview channel (and its associated preview URL) for every pull request
+- Adds a comment to the pull request with the preview URL so that each reviewer can view and test the PR's changes in a preview version of the app
+- Update the preview URL with changes from each commit by automatically deploying to the associated preview channel. The URL doesn't change with each new commit.
+- Deploys the current state of your GitHub repo to the live channel when the pull request is merged
+
+### Setup
+
+If Firebase hosting has already been configured, then set up the GitHub Action part of hosting.
+
+1. Create a new GitHub Actions workflow file in your repo at `.github/workflows/firebase-hosting-pull-request-preview.yml`
+2. Copy the following code into the new file:
+
+```yml  
+name: "Firebase Hosting Pull Request Preview"
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+    hosting:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - uses: firebase/github-actions/hosting@v0
+            with:
+            repoToken: "${{ secrets.GITHUB_TOKEN }}"
+            firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+            channelId: "pull_request_${{ github.event.number }}"
+            projectId: "YOUR_FIREBASE_PROJECT_ID"
+            previewChannelId: "pull_request_${{ github.event.number }}"
+            previewChannelExpireTime: "7d"  
+
+
+            
+
+            
+```
+3. Create a new secret in your repo named `FIREBASE_SERVICE_ACCOUNT` and paste the contents of your Firebase service account credentials JSON file as the value. You can find this file in your Firebase project settings under the "Service Accounts" tab. 
+4. Commit and push the changes to your repo.
+
+### Usage
+
 
 
 
