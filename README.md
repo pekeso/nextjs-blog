@@ -125,11 +125,6 @@ jobs:
             projectId: "YOUR_FIREBASE_PROJECT_ID"
             previewChannelId: "pull_request_${{ github.event.number }}"
             previewChannelExpireTime: "7d"  
-
-
-            
-
-            
 ```
 3. Create a new secret in your repo named `FIREBASE_SERVICE_ACCOUNT` and paste the contents of your Firebase service account credentials JSON file as the value. You can find this file in your Firebase project settings under the "Service Accounts" tab. 
 4. Commit and push the changes to your repo.
