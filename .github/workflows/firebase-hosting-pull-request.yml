@@ -3,8 +3,7 @@
 
 name: Deploy to preview channel
 on: 
-  pull_request_target:
-    types: [assigned, opened, synchronize, reopened]
+  pull_request:
 
 jobs:
   build_and_preview:
