@@ -4,7 +4,7 @@
     "build": "npm run env && next build",
     "dev": "next dev",
     "start": "next start",
-    "env": "cp env.${GCLOUD_PROJECT:-local}.js out/env.js"
+    "env": "cp env.${GCLOUD_PROJECT:-local}.js public/env.js"
   },
   "dependencies": {
     "date-fns": "^2.30.0",
