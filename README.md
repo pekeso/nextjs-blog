@@ -131,9 +131,85 @@ jobs:
 
 ### Usage
 
+1. Create a new pull request in your repo.
 
+2. Wait for the GitHub Action to finish running. You can view the progress by clicking on the "Actions" tab in your repo.
 
+3. Once the GitHub Action has finished running, you'll see a new comment on your pull request with the preview URL. Click on the URL to view the preview version of your app.
 
+4. As you make changes to your pull request, the preview URL will automatically update with the latest changes. The URL doesn't change with each new commit.
+
+5. Once you're ready to merge your pull request, click on the "Merge pull request" button. The GitHub Action will automatically deploy the current state of your GitHub repo to the live channel.
+
+## Deploy to live & preview channels via GitHub Actions workflow
+
+What this GitHub Action can do:
+
+- Creates a new preview channel (and its associated preview URL) for every push to the `main` branch
+
+- Adds a comment to the pull request with the preview URL so that each reviewer can view and test the PR's changes in a preview version of the app
+
+- Update the preview URL with changes from each commit by automatically deploying to the associated preview channel. The URL doesn't change with each new commit.
+
+- Deploys the current state of your GitHub repo to the live channel when the pull request is merged
+
+## Staging and Production 
+
+For the staging and production environments, we will use the following Firebase Hosting URLs:
+
+- Staging: https://staging-<project-id>.web.app
+
+- Production: https://<project-id>.web.app
+
+- Use the following command to add the production environment:
+
+```bash
+firebase use --add project-prod
+``` 
+
+For the production environment, a couple of additional steps are required:
+
+- Upgrade the project to the Blaze plan
+
+- Add a custom domain (optional)
+
+- Set a bugdet alert 
+
+- Turn on Cloud Logging
+
+- Restrict access to the production environment: 
+    - Review project members
+    - Restrict API keys
+
+- Automate deployment and testing
+
+To make the application know which environment it is running in, we can environment specific initialization files for the local, staging, and production environments:
+
+- `.env.local.js`
+
+- `.env.staging.project-id.js`
+
+- `.env.production.project-id.js`
+
+To integrate these with the deploy process, we add a predeploy hook to the `firebase.json` file:
+
+```json
+"predeploy": [
+    "npm ci", "npm run build"
+]
+```
+
+A useful feature of the predeploy hook is that it provides a $GCLOUD_PROJECT environment variable for the current project to all scripts that it runs. This allows us to use the same predeploy hook for local, staging and production environments.
+
+We then add an `env` script to the `package.json` file:
+
+```json
+"env": "cp env.${GCLOUD_PROJECT:-local}.js public/env.js"
+```
+
+to copy environment specific initialization files based on the $GCLOUD_PROJECT environment variable and fall back to local environment initialization file if no environment specific initialization file exists.
+
+Then we run the new `env` script before the build process that happens every time we run the app.
 
 
 
