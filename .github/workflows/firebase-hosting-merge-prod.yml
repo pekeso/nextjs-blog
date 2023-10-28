@@ -16,7 +16,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEXTJS_BLOG_PROD }}'
-          channelId: live
+          channelId: qa
           projectId: nextjs-blog-prod
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
