@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "nextjs-blog-8dc50"
-  }
+    "prod": "nextjs-blog-prod",
+    "dev": "nextjs-blog-8dc50"
+  },
+  "targets": {},
+  "etags": {}
 }

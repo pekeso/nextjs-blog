@@ -2,24 +2,21 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to live channel
-on:
+'on':
   push:
     branches:
-      - main
+      - dev
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
-      issues: write
+    
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEXTJS_BLOG_8DC50 }}'
           channelId: live
           projectId: nextjs-blog-8dc50
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
