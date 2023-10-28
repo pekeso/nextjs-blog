@@ -2,7 +2,8 @@
   "hosting": {
     "public": "out",
     "predeploy": [
-      "npm ci", "npm run build"
+      "npm ci",
+      "npm run build"
     ],
     "cleanUrls": true,
     "ignore": [
